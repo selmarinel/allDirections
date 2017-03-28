@@ -69,7 +69,6 @@ class Resolver
     /**
      * @param $input
      * @return array
-     * @throws MyException
      */
     private function parseInput($input)
     {
@@ -86,8 +85,6 @@ class Resolver
                     $result[$key][$item] = [];
                     $lockKey = $key;
                     $lockItem = $item;
-                } else {
-                    throw new MyException("Incorrect Input data. Test case {$item} starts with an integer between 1 and 20");
                 }
             } elseif($item !== '') {
                 if (!isset($result[$key])) {
@@ -107,10 +104,6 @@ class Resolver
                             "startLength" => $parser[5],
                             "move" => $result[$lockKey][$lockItem][$ir]["move"] ?? [],
                         ];
-                    } else {
-                        throw new MyException("Incorrect Input data.
-                         All numeric inputs must be real numbers in the range [" . static::MIN_NUMERIC_VALUE . "," .
-                            static::MAX_NUMERIC_VALUE . "]");
                     }
 
                     if (count($parser) > 6) {
@@ -124,27 +117,14 @@ class Resolver
                                 $walk[$array[$i]] = $array[$i + 1];
                                 $walk[$array[$i + 2]] = $array[$i + 3];
                                 $move[] = $walk;
-                            } else {
-                                throw new MyException("Incorrect Input data.
-                                    All numeric inputs must be real numbers in the range [" . static::MIN_NUMERIC_VALUE . "," .
-                                    static::MAX_NUMERIC_VALUE . "]");
                             }
                         }
                         $result[$lockKey][$lockItem][$ir]["move"] = $move;
-
-                        if (count($result[$lockKey][$lockItem][$ir]["move"]) > static::MAX_INSTRUCTIONS) {
-                            throw new MyException("Incorrect Input data. Each person’s directions must contain at most 25 instructions.");
-                        }
                     }
                 }
             }
         }
-        if (count($result) > 100) {
-            throw new MyException("Incorrect Input data. Input must consists of up to 100100 test cases.");
-        }
-        if (empty($result)) {
-            throw new MyException("Error in input data");
-        }
+
         return $result;
     }
 
@@ -195,7 +175,6 @@ class Resolver
     /**
      * @param array $input
      * @return array
-     * @throws MyException
      */
     private function throwPeople(Array $input)
     {
@@ -213,8 +192,6 @@ class Resolver
                         $direction = $this->calculateOneDirection($manWhoTold);
                         $result[$index][] = $direction;
                     }
-                } else {
-                    throw new MyException("Incorrect Input data. Count of people not equal number of answers");
                 }
 
             }
@@ -231,7 +208,6 @@ class Resolver
      * @param $avgY
      * @param $directions
      * @return string
-     * @throws MyException
      */
     private function calculateMaxAccuracy($avgX, $avgY, $directions)
     {
@@ -244,15 +220,12 @@ class Resolver
                 }
             }
             return number_format($max, self::ACCURACY);
-        } else {
-            throw new MyException("Incorrect average coordinates");
         }
     }
 
     /**
      * @param $direction
      * @return null|object
-     * @throws MyException
      */
     private function calculateAVGCoordinates($direction)
     {
@@ -293,7 +266,6 @@ class Resolver
     /**
      * @param null $input
      * @return string
-     * @throws MyException
      */
     private function process($input = null)
     {
