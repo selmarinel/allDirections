@@ -2,5 +2,7 @@
     "name": "selmarinel/all-different-directions",
     "type": "project",
     "license": "MIT",
-    "require": {}
+    "require": {
+        "phpunit/phpunit": "^6.0"
+    }
 }
