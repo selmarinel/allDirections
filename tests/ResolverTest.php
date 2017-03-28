@@ -16,13 +16,12 @@ class ResolverTest extends TestCase
 40 50 start 180 walk 10 turn 90 walk 5
 0';
 
-        $output = '97.15 40.23 7.63
-30.00 45.00 0.00';
+        $output = "97.15 40.23 7.63 
+30.00 45.00 0.00 
+";
 
         $resolver = new Resolver();
 
-        var_dump(trim($output), trim($resolver->resolve($input)));
-
-        $this->assertSame(trim($output), trim($resolver->resolve($input)));
+        $this->assertSame($output, $resolver->resolve($input));
     }
 }
