@@ -12,6 +12,11 @@ class Resolver
     const MIN_CASE = 0;
     const MAX_CASE = 20;
 
+    public function resolve($input)
+    {
+        return $this->generateOutput($this->throwPeople($this->parseInput($input)));
+    }
+
     /**
      * @param $angle
      * @param $length
@@ -42,18 +47,6 @@ class Resolver
         return $startAngle - $modifyAngle;
     }
 
-    /** Temporary input for example
-     * @var string
-     */
-    private $input = "3
-87.342 34.30 start 0 walk 10.0
-2.6762 75.2811 start -45.0 walk 40 turn 40.0 walk 60
-58.518 93.508 start 270 walk 50 turn 90 walk 40 turn 13 walk 5
-2
-30 40 start 90 walk 5
-40 50 start 180 walk 10 turn 90 walk 5
-0";
-
     /**
      * Basic Validation
      * @param $numeric
@@ -72,9 +65,6 @@ class Resolver
      */
     private function parseInput($input)
     {
-        if (!$input) {
-            $input = $this->input;
-        }
         $data = explode("\n", $input);
         $result = [];
         $ir = 0;
@@ -231,7 +221,7 @@ class Resolver
             return [
                 'x' => $x,
                 'y' => $y,
-                'length' => $this->calculateMaxAccuracy($x, $y, $direction)
+                'length' => $this->calculateMaxAccuracy($x, $y, $direction),
             ];
         }
         return null;
@@ -250,19 +240,5 @@ class Resolver
         }
 
         return $out;
-    }
-
-    /**
-     * @param null $input
-     * @return string
-     */
-    private function process($input = null)
-    {
-        return $this->generateOutput($this->throwPeople($this->parseInput($input)));
-    }
-
-    public function resolve($input)
-    {
-        return $this->process($input);
     }
 }
