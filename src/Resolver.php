@@ -181,19 +181,10 @@ class Resolver
         $result = [];
         foreach ($input as $index => $data) {
             foreach ($data as $countOfPeople => $manWhoToldData) {
-                if ($countOfPeople == 0) {
-                    /**
-                     * Exit
-                     */
-                    continue 2;
+                foreach ($manWhoToldData as $manWhoTold) {
+                    $direction = $this->calculateOneDirection($manWhoTold);
+                    $result[$index][] = $direction;
                 }
-                if (is_array($manWhoToldData) && $countOfPeople == count($manWhoToldData)) {
-                    foreach ($manWhoToldData as $manWhoTold) {
-                        $direction = $this->calculateOneDirection($manWhoTold);
-                        $result[$index][] = $direction;
-                    }
-                }
-
             }
         }
         $throw = [];
@@ -211,16 +202,14 @@ class Resolver
      */
     private function calculateMaxAccuracy($avgX, $avgY, $directions)
     {
-        if (!empty($directions)) {
-            $max = 0;
-            foreach ($directions as $direction) {
-                $length = sqrt(pow(($avgX - $direction->x), 2) + pow(($avgY - $direction->y), 2));
-                if ($max < $length) {
-                    $max = $length;
-                }
+        $max = 0;
+        foreach ($directions as $direction) {
+            $length = sqrt(pow(($avgX - $direction->x), 2) + pow(($avgY - $direction->y), 2));
+            if ($max < $length) {
+                $max = $length;
             }
-            return number_format($max, self::ACCURACY);
         }
+        return number_format($max, self::ACCURACY);
     }
 
     /**
@@ -239,10 +228,10 @@ class Resolver
         if (count($direction)) {
             $x = number_format($averageX / count($direction), self::ACCURACY);
             $y = number_format($averageY / count($direction), self::ACCURACY);
-            return (object)[
-                "x" => $x,
-                "y" => $y,
-                "length" => $this->calculateMaxAccuracy($x, $y, $direction)
+            return [
+                'x' => $x,
+                'y' => $y,
+                'length' => $this->calculateMaxAccuracy($x, $y, $direction)
             ];
         }
         return null;
@@ -252,14 +241,14 @@ class Resolver
      * @param array $output
      * @return string
      */
-    private function generateOutput(Array $output)
+    private function generateOutput(array $output)
     {
-        $out = "";
-        if (!empty($output)) {
-            foreach ($output as $item) {
-                $out .= "$item->x $item->y $item->length \n";
-            }
+        $out = '';
+
+        foreach ($output as $item) {
+            $out .= "{$item['x']} {$item['y']} {$item['length']} \n";
         }
+
         return $out;
     }
 
