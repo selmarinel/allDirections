@@ -1,0 +1,13 @@
+{
+    "name": "selmarinel/all-different-directions",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Selmarinel\\AllDifferentDirections\\": "src"
+        }
+    }
+}
